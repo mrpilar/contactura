@@ -10,3 +10,9 @@ export interface User {
     password: string;
     
   }
+
+  export interface StorageInfo {
+    admin: string;
+   token: string;
+    
+  }
