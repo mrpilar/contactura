@@ -8,9 +8,9 @@
 
 <section>
     <div class="container_buttons">
-        <button routerLink="/cadastro-contatos" mat-raised-button color="primary" (click)="refresh()">Criar Contato</button>
+        <button routerLink="/cadastro-contatos" mat-raised-button color="primary">Criar Contato</button>
         
-        <button routerLink="/cadastro-usuarios" mat-raised-button color="primary" (click)="refresh2()">Criar Usuário</button>
+        <button routerLink="/cadastro-usuarios" mat-raised-button color="primary">Criar Usuário</button>
         
     </div>
 </section>
@@ -21,8 +21,8 @@
             <!--thead-->
             <thead>
                 <tr>
-                    <th scope="col">Email</th>
                     <th scope="col">Nome</th>
+                    <th scope="col">Senha</th>
                     <th scope="col">Admin?</th>
                     <th>menu</th>
                     
@@ -31,13 +31,12 @@
             <!--tbody-->
             <tbody>
                 <tr *ngFor="let user of usersList">
-                    <td data-label="Email">{{user.email}}</td>
                     <td data-label="Nome">{{user.name}}</td>
-                    <td data-label="Admin">{{user.admin}}</td>
-                    <!-- <td data-label="Senha">{{user.senha}}</td> -->
+                    <td data-label="Admin">{{user.password}}</td>
+                    <td data-label="Senha">{{user.admin}}</td>
                     <td>
                         <div class="container-buttons-tablle">
-                            <mat-icon (click)="deleteUsuarios(user)">delete</mat-icon>
+                            <mat-icon (click)="deleteUser(user)">delete</mat-icon>
                             <mat-icon (click)="editUsuarios(user)">edit</mat-icon>
                         </div>
                     </td>

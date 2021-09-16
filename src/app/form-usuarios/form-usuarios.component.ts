@@ -14,7 +14,7 @@ export class FormUsuariosComponent implements OnInit {
 
     formUsuarios = new FormGroup({
       id: new FormControl(''),
-      email: new FormControl('',[Validators.required, Validators.email]),
+     // email: new FormControl('',[Validators.required, Validators.email]),
       senha: new FormControl('',[Validators.required]),
       name: new FormControl('',[Validators.required]),
     })
@@ -27,7 +27,7 @@ export class FormUsuariosComponent implements OnInit {
         console.log(edit, 'valor do edit');
         this.formUsuarios.get('name').setValue(edit.name);
         this.formUsuarios.get('password').setValue(edit.password);
-        this.formUsuarios.get('id').setValue(edit.id);
+        //this.formUsuarios.get('id').setValue(edit.id);
 
         checkbox = document.getElementById('adminCheck');
           if (checkbox){
@@ -40,6 +40,8 @@ export class FormUsuariosComponent implements OnInit {
       
     })
   }
+
+  
 
   save() {
     if (this.formUsuarios.valid) {

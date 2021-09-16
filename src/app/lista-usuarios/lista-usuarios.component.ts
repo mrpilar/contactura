@@ -10,18 +10,31 @@ import { UsuariosService } from '../service/usuarios/usuarios.service';
   styleUrls: ['./lista-usuarios.component.scss']
 })
 export class ListaUsuariosComponent implements OnInit {
-
+  
   usersList: User[];
-  collection = {count: 10, data: []};
+  //collection = {count: 10, data: []};
 
   constructor(public usuariosService: UsuariosService, private router:Router) { }
 
   ngOnInit(): void {
-    this.populateUsers();
-   
+    //this.populateUsers();
+    this.getUser();
   }
 
-  populateUsers() {
+  getUser(){
+    this.usuariosService.getUser().subscribe(
+      userData => {
+        this.usersList = userData;
+        console.log(userData);
+      },
+      error => {
+        this.usersList = [];
+        console.log(error);
+      }
+    );
+  }
+
+  /*populateUsers() {
     for (let i = 0; i < this.collection.count; i++) {
       this.collection.data.push({
         id: i,
@@ -30,55 +43,45 @@ export class ListaUsuariosComponent implements OnInit {
         senha: "**",
         admin: 'yes/no',
 
-      });
+      });*/
       
-      this.usersList = this.collection.data;
+      //this.usersList = this.collection.data;
       //const element = array[i];
-      console.log(this.usersList);
+     // console.log(this.usersList);
       
      
-    }
-  }
+    //}
+  //}
 
-  refresh() {
-    this.router.navigate(['/cadastro-contatos'])
-    .then(() => {
-      window.location.reload();
-    })
-  }
-
-  refresh2() {
-    this.router.navigate(['/cadastro-usuarios'])
-    .then(() => {
-      window.location.reload();
-    })
-  }
-
+  
   editUsuarios(usuarios:User) {
-    console.log('edit work!',usuarios);
+    console.log('edit está funcionando!',usuarios);
     this.usuariosService.getUsersList(usuarios);
     this.router.navigate(['/cadastro-usuarios']);
   }
 
-  deleteUsuarios(usuarios:User) {
-     
+  deleteUser(usuarios: User){
     Swal.fire({
-      title: 'Você tem certeza??',
-      text: "Deseja memso deletar?",
+      title: 'Você tem certeza?',
+      text: 'Deseja mesmo deletar?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Deletado!',
-          'Usuário removido com sucesso!.',
-          'success'
-        )
+        this.usuariosService.deleteUser(usuarios.id).subscribe(
+          data => {
+            Swal.fire(
+              String(data),
+            );
+            this.getUser();
+          }
+        );
       }
-    })
-  } 
+    });
+  }
 
 }

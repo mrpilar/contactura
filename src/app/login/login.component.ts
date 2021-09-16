@@ -29,8 +29,10 @@ export class LoginComponent implements OnInit {
       this.usuariosService.authentication(this.authentication).subscribe(
         data => {
           console.log(data);
-          localStorage.setItem('token', data.admin);
-          localStorage.setItem('admin', data.token);
+          //localStorage.setItem('token', data.admin);
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('admin', data.admin);
+         // localStorage.setItem('admin', data.token);
           localStorage.setItem('username', this.authentication.username);
           localStorage.setItem('password', this.authentication.password);
           this.router.navigate(['/lista-contatos']);

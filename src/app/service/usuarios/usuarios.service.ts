@@ -1,4 +1,3 @@
-  
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -11,6 +10,7 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UsuariosService {
+
 
   private dataEdit = new BehaviorSubject<User>(null);
   botaoEdit = this.dataEdit.asObservable();
@@ -28,8 +28,10 @@ export class UsuariosService {
         authData =>  {
         
          let storageInformation: StorageInfo = {
-           admin: authData[0],
-           token: authData[1]
+           //admin: authData[0],
+          // token: authData[1]
+          admin: authData[1],
+          token: authData[0]
          }
 
          console.log(storageInformation);
@@ -39,8 +41,68 @@ export class UsuariosService {
     )
 
       }
+
+  username = localStorage.getItem('username');
+  password = localStorage.getItem('password');
       
     getUsersList(usuarios:User){
       this.dataEdit.next(usuarios);
+    }
+
+    getUser(){
+      const headers = new HttpHeaders({Authorization: 'Basic ' + btoa(this.username + ':' + this.password)});
+      return this.http.get<User[]>(this.api_url + 'user', {headers}).pipe(
+        map(
+          userData => {
+            if (userData){
+              return userData;
+            }else{
+              return [];
+            }
+          }
+        )
+      );
+    }
+  
+    createUser(user: User){
+      const headers = new HttpHeaders({Authorization: 'Basic ' + btoa(this.username + ':' + this.password)});
+      return this.http.post<User>(this.api_url + 'user', user, {headers}).pipe(
+        map(
+          userData => {
+            if (userData){
+              return userData;
+            }else{
+              return [];
+            }
+          }
+        )
+      );
+    }
+  
+    deleteUser(id: number){
+      const headers = new HttpHeaders({Authorization: 'Basic ' + btoa(this.username + ':' + this.password)});
+      return this.http.delete(this.api_url + 'user/' + id, {headers, responseType: 'text' as 'text'}).pipe(
+        map(
+          userData => {
+            return userData;
+          }
+        )
+      );
+    }
+  
+    editUsuarios(user: User){
+      const id = user.id;
+      const headers = new HttpHeaders({Authorization: 'Basic ' + btoa(this.username + ':' + this.password)});
+      return this.http.put<User>(this.api_url + 'user/' + id, user, {headers}).pipe(
+        map(
+          userData => {
+            if (userData){
+              return userData;
+            }else{
+              return [];
+            }
+          }
+        )
+      );
     }
 };
